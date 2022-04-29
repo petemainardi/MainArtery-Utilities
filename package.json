@@ -4,8 +4,8 @@
     "version": "0.0.1",
     "unity": "2021.3",
     "description": "A collection of extensions, scripts, and objects useful for C# and Unity projects.",
-    "author": [
+    "author": {
         "name": "Pete Mainardi",
 		"url": ""
-    ]
+    }
 }
