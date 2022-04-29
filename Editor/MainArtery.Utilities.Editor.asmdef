@@ -1,0 +1,16 @@
+{
+    "name": "MainArtery.Utilities.Editor",
+    "rootNamespace": "MainArtery.Utilities.Editor",
+    "references": [
+        "GUID:78714536ed0d0944e87e1c91bccf0f2e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
