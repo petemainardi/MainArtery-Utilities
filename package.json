@@ -1,11 +1,16 @@
 {
-    "name": "com.mainartery.utilities",
-    "displayName": "Main Artery Utilities",
-    "version": "0.0.1",
-    "unity": "2021.3",
-    "description": "A collection of extensions, scripts, and objects useful for C# and Unity projects.",
-    "author": {
-        "name": "Pete Mainardi",
-		"url": ""
-    }
+  "name": "com.mainartery.utilities",
+  "displayName": "Main Artery Utilities",
+  "description": "A collection of extensions, scripts, and objects useful for C# and Unity projects.",
+  "version": "0.0.1",
+  "unity": "2021.3",
+  "keywords": [
+    "library",
+    "utility"
+  ],
+  "author": {
+    "name": "Pete Mainardi",
+    "url": ""
+  },
+  "type": "library"
 }
