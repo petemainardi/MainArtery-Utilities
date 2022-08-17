@@ -1,5 +1,5 @@
 {
-    "name": "MainArtery.Utilities.Runtime",
+    "name": "MainArtery.Utilities",
     "rootNamespace": "MainArtery.Utilities",
     "references": [],
     "includePlatforms": [],
