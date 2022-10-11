@@ -27,7 +27,9 @@ namespace MainArtery.Utilities.Editor
         private delegate string GetNamespaceName(string filePath);
         private static GetNamespaceName[] nameChecks =
         {
+#if UNITY_2020_2_OR_NEWER
             (path) => CompilationPipeline.GetAssemblyRootNamespaceFromScriptPath(path),
+#endif
             (path) => EditorSettings.projectGenerationRootNamespace,
             (path) => PlayerSettings.productName,
             (path) => PlayerSettings.companyName,
