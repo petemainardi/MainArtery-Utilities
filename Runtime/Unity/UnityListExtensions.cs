@@ -33,6 +33,22 @@ namespace MainArtery.Utilities.Unity
         {
             return list.RemoveGrabAt(UnityEngine.Random.Range(0, list.Count));
         }
+
+        // Reorder elements by the Fisher-Yates Shuffle ---------------------------------
+        // based on code from https://bost.ocks.org/mike/shuffle/
+        public static void Shuffle<T>(this List<T> list)
+        {
+            int idx, count = list.Count;
+            T temp;
+
+            while (count > 0)
+            {
+                idx = UnityEngine.Random.Range(0, count--);
+                temp = list[count];
+                list[count] = list[idx];
+                list[idx] = temp;
+            }
+        }
     }
     // ============================================================================================
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
