@@ -7,7 +7,7 @@ namespace MainArtery.Utilities
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     // ============================================================================================
     /**
-     *  Extension methods for the C# List class (with the Unity Random class);
+     *  Extension methods for the C# List class (with the System Random class).
      */
     // ============================================================================================
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -51,6 +51,22 @@ namespace MainArtery.Utilities
         public static T RandomRemove<T>(this List<T> list, Random rand)
         {
             return list.RemoveGrabAt(rand.Next(0, list.Count));
+        }
+
+        // Reorder elements by the Fisher-Yates Shuffle  --------------------------------
+        // based on code from https://bost.ocks.org/mike/shuffle/
+        public static void Shuffle<T>(this List<T> list, Random rand)
+        {
+            int idx, count = list.Count;
+            T temp;
+
+            while (count > 0)
+            {
+                idx = (int)Math.Floor(rand.NextDouble() * count--);
+                temp = list[count];
+                list[count] = list[idx];
+                list[idx] = temp;
+            }
         }
     }
     // ============================================================================================

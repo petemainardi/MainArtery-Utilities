@@ -13,7 +13,7 @@ namespace MainArtery.Utilities.Unity
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     // ============================================================================================
 
-    public static class ListExtenstions
+    public static class ListExtensions
     {
         // Return a random element and its index from the list --------------------------
         public static Tuple<int, T> Random<T>(this List<T> list)
