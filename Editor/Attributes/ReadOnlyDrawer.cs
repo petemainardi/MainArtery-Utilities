@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor;
-using MainArtery.Utilities.Unity;
+using MainArtery.Utilities.Unity.Attributes;
 
 // Code courtesy of:
 // https://www.patrykgalach.com/2020/01/20/readonly-attribute-in-unity-editor/

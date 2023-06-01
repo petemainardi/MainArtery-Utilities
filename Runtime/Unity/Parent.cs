@@ -3,15 +3,17 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-//using Sirenix.OdinInspector;
+using MainArtery.Utilities.Unity.Attributes;
 
-//#pragma warning disable 0649    // Variable declared but never assigned to
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace MainArtery.Utilities.Unity
 {
-    // ============================================================================================
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    // ============================================================================================
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
     /**
      * Component that treats all of its child gameobjects as an ordered list.
      * Its purpose is to facilitate operations performed upon such a list so that containing
@@ -25,34 +27,51 @@ namespace MainArtery.Utilities.Unity
      * child, and adding children by other means (e.g. in the editor at runtime) will cause
      * unexpected behavior.
      */
-    // ============================================================================================
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    // ============================================================================================
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
     [Serializable]
     public class Parent : MonoBehaviour
     {
-        // Fields =================================================================================
-        //[SerializeField, OnValueChanged("ResetOrder")]
+        /// =======================================================================================
+        /// Fields & Properties
+        /// =======================================================================================
+#if ODIN_INSPECTOR
+        [OnValueChanged("ResetOrder")]
+#endif
+        [SerializeField]
         [Tooltip("Whether the list starts or ends at sibling index 0, i.e. whether later nodes are drawn on top of earlier ones")]
         private bool beginAtFirst;
         public bool BeginAtTopOfHierarchy => this.beginAtFirst;
 
-        //[SerializeField, BoxGroup("Naming Convention")]
+#if ODIN_INSPECTOR
+        [BoxGroup("Naming Convention")]
+#endif
+        [SerializeField]
         private string prefix = "Node";
         public string Prefix => this.prefix;
-        //[SerializeField, ReadOnly, BoxGroup("Naming Convention")]
+
+#if ODIN_INSPECTOR
+        [BoxGroup("Naming Convention")]
+#endif
+        [SerializeField]
         private string separator = " ";
         public string Separator => this.separator;
-        //[SerializeField, ReadOnly, BoxGroup("Naming Convention")]
+
+#if ODIN_INSPECTOR
+        [BoxGroup("Naming Convention")]
+#endif
+        [SerializeField, Attributes.ReadOnly]
         private string postfix = "({0})";
         public string Postfix => string.Format(this.postfix, "#");
 
         // TODO: If postfix is going to be editable, this needs to be too...
         // TODO: And then we'd also need to account for an editable separator here...
         private readonly Regex regex = new Regex(@"(?<=\()\d+(?=\)$)", RegexOptions.RightToLeft);     // Regex match for node naming convention - Get int value at end of name in parentheses
-        // ========================================================================================
 
-        // Properties =============================================================================
+        /// =======================================================================================
+        /// Properties
+        /// =======================================================================================
         public int Count => this.transform.childCount;
         public Transform Last => this[this.Count - 1];
         public Transform First => this[0];
@@ -71,9 +90,10 @@ namespace MainArtery.Utilities.Unity
         }
 
         public List<Transform> Children => this.ChildrenBefore(this.Count);
-        // ========================================================================================
 
-        // Initialization =========================================================================
+        /// =======================================================================================
+        /// Monobehaviour
+        /// =======================================================================================
         public void Awake()
         {
             this.ResetOrder();
@@ -91,9 +111,9 @@ namespace MainArtery.Utilities.Unity
                     Debug.LogWarning($"Invalid child name {child.name} under Parent {this.transform.name}.");
             }
         }
-        // ========================================================================================
-
-        // Child Accessors ========================================================================
+        /// =======================================================================================
+        /// Child Accessors
+        /// =======================================================================================
 
         public bool Owns(Transform child) => child.parent == this.transform;
 
@@ -126,15 +146,41 @@ namespace MainArtery.Utilities.Unity
         {
             return this.Children.Select(c => c.GetComponent<T>()).ToList();
         }
-        // ========================================================================================
-
-        // Child Manipulation =====================================================================
+        /// =======================================================================================
+        /// Child Manipulation
+        /// =======================================================================================
 
         private int ChildIndexName(Transform child) => Int32.TryParse(this.regex.Match(child.name).Value, out int index) ? index : -1;
         private void RenameChild(Transform child, int index)
         {
             //child.name = $"{child.name.Remove(this.regex.Match(child.name).Index)}{string.Format(this.postfix, index)}"; //TODO: Currently not accounting for separator...
             child.name = $"{this.Prefix}{this.Separator}{string.Format(this.postfix, index)}";
+        }
+#if ODIN_INSPECTOR
+        [Button("Rename Children by Index"), Separator]
+#endif
+        public void RenameChildrenByIndex()
+        {
+            if (this.beginAtFirst)
+                for (int i = 0; i < this.transform.childCount; i++)
+                    this.RenameChild(this.transform.GetChild(i), i);
+            else
+                for (int i = this.transform.childCount - 1; i >= 0; i--)
+                    this.RenameChild(this.transform.GetChild(i), this.transform.childCount - i - 1);
+        }
+#if ODIN_INSPECTOR
+        [Button("Reverse Children Names"), Spacer]
+#endif
+        public void ReverseChildrenNames()
+        {
+            if (this.beginAtFirst)
+                for (int i = 0; i < this.transform.childCount; i++)
+                    this.RenameChild(this.transform.GetChild(i), this.transform.childCount - i - 1);
+            else
+                for (int i = this.transform.childCount - 1; i >= 0; i--)
+                    this.RenameChild(this.transform.GetChild(i), i);
+
+            this.ResetOrder();
         }
 
 
@@ -154,6 +200,7 @@ namespace MainArtery.Utilities.Unity
             //this.ResetOrder();  // TODO: Do we always need to do a full reset?
             return node;
         }
+
         public Transform Move(Transform child, int index)
         {
             if (!this.Owns(child)) return this.Insert(child, index);
@@ -171,6 +218,7 @@ namespace MainArtery.Utilities.Unity
             }
             return child;
         }
+
         public Transform Remove(Transform child) => this.Owns(child) ? this.Remove(this[child]) : child;
         public Transform Remove(int index)
         {
@@ -184,6 +232,16 @@ namespace MainArtery.Utilities.Unity
             return child;
         }
 
+
+        public void Clear()
+        {
+            List<Transform> children = this.Children;
+            this.transform.DetachChildren();
+            for (int i = children.Count - 1; i >= 0; i--)
+            {
+                GameObject.Destroy(children[i]);
+            }
+        }
 
 
         // Really only necessary if this.beginAtFirst changed or if external forces have messed with our children
@@ -209,7 +267,7 @@ namespace MainArtery.Utilities.Unity
                 this.RenameChild(child, this[child]);
             }
         }
-        // ========================================================================================
+        /// =======================================================================================
     }
     // ============================================================================================
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
