@@ -78,7 +78,7 @@ namespace MainArtery.Utilities.Unity
 
         public Transform this[int index]
         {
-            get => Mathf.Clamp(index, 0, this.Count) == index
+            get => Mathf.Clamp(index, 0, this.Count - 1) == index
                 ? this.transform.GetChild(this.beginAtFirst ? index : (this.Count - 1) - index)
                 : null;
         }
