@@ -50,4 +50,12 @@ namespace MainArtery.Utilities.Unity
     // ============================================================================================
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     // ============================================================================================
+
+    // Some color suggestions:
+    //public static Color Health => new Color(240, 76, 63);
+    //public static Color Stamina => new Color(86, 182, 93);
+    //public static Color Mana => new Color(58, 81, 121);
+    //public static Color Mana2 => new Color(100, 118, 150);
+    //public static Color Armor => new Color(114, 87, 74);
+    //public static Color Water => new Color(102, 195, 218);
 }
