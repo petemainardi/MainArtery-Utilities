@@ -1,8 +1,9 @@
-﻿using System;
-using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities.Editor;
+﻿#if ODIN_INSPECTOR
+using System;
 using UnityEngine;
 using UnityEditor;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
 
 namespace MainArtery.Utilities.Unity.Attributes
 {
@@ -55,3 +56,4 @@ namespace MainArtery.Utilities.Unity.Attributes
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     /// ===========================================================================================
 }
+#endif

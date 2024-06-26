@@ -1,3 +1,4 @@
+#if ODIN_INSPECTOR
 using System;
 using UnityEngine;
 using UnityEditor;
@@ -49,3 +50,4 @@ namespace MainArtery.Utilities.Unity.Attributes
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     /// ===========================================================================================
 }
+#endif

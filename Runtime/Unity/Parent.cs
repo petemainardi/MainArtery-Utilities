@@ -15,17 +15,17 @@ namespace MainArtery.Utilities.Unity
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     /// ===========================================================================================
     /**
-     * Component that treats all of its child gameobjects as an ordered list.
-     * Its purpose is to facilitate operations performed upon such a list so that containing
-     * classes can just manipulate the set of child objects with out having to go through Unity's
-     * interface for doing so, or tracking order themselves.
-     * 
-     * An example use case of this could be managing a collection of like objects that need to be
-     * spatially associated with each other, particularly for easily managing how they are layered.
-     * 
-     * Note that this class expects to be the only one that controls whether a Transform is its
-     * child, and adding children by other means (e.g. in the editor at runtime) will cause
-     * unexpected behavior.
+     *  Component that treats all of its child gameobjects as an ordered list.
+     *  Its purpose is to facilitate operations performed upon such a list so that containing
+     *  classes can just manipulate the set of child objects with out having to go through Unity's
+     *  interface for doing so, or tracking order themselves.
+     *  
+     *  An example use case of this could be managing a collection of like objects that need to be
+     *  spatially associated with each other, particularly for easily managing how they are layered.
+     *  
+     *  Note that this class expects to be the only one that controls whether a Transform is its
+     *  child, and adding children by other means (e.g. in the editor at runtime) will cause
+     *  unexpected behavior.
      */
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
