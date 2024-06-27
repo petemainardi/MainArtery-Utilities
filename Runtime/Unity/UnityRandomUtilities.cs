@@ -5,34 +5,47 @@ using Random = UnityEngine.Random;
 
 namespace MainArtery.Utilities.Unity
 {
-    // ============================================================================================
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    // ============================================================================================
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
     /**
      *  Utility functions for randomization using the Unity Random class.
      */
-    // ============================================================================================
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    // ============================================================================================
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
     public static class UnityRandomUtilities
     {
+        /// <summary>
+        /// Get a random date between the specified dates, inclusive.
+        /// </summary>
+        /// <param name="random">The randomizing agent</param>
+        /// <param name="start">The earliest date to consider</param>
+        /// <param name="end">The latest date to consider</param>
+        /// <returns>Randomly selected date between specified dates</returns>
         public static DateTime GetDateRandom(DateTime start, DateTime end)
         {
-            int days = Random.Range(0, (end - start).Days);
+            int days = Random.Range(0, (end - start).Days + 1);  // +1 because Range() upper bound is exclusive
             return end.AddDays(-days);
         }
 
-
-        public static List<T> GetNRandom<T>(List<T> items, int numRandom)
+        /// <summary>
+        /// Randomly select a number of items from the list.
+        /// </summary>
+        /// <typeparam name="T">The type of objects contained in the array</typeparam>
+        /// <param name="items">The items from which to choose</param>
+        /// <param name="numRandom">The number of items to choose</param>
+        /// <returns>The randomly selected items</returns>
+        public static IEnumerable<T> GetNRandom<T>(IEnumerable<T> items, int numRandom)
         {
             List<T> selectedItems = new List<T>();
-            numRandom = Math.Min(numRandom, items.Count);
+            numRandom = Math.Min(numRandom, items.Count());
 
-            for (int i = 0; i < items.Count && numRandom > 0; i++)
+            for (int i = 0; i < items.Count() && numRandom > 0; i++)
             {
-                if (Random.Range(0, items.Count - i) < numRandom)
+                if (Random.Range(0, items.Count() - i) < numRandom)
                 {
-                    selectedItems.Add(items[i]);
+                    selectedItems.Add(items.ElementAt(i));
                     numRandom--;
                 }
             }
@@ -40,38 +53,33 @@ namespace MainArtery.Utilities.Unity
             return selectedItems;
         }
 
-
         /// <summary>
-        /// Randomly distributes a set number of items among different categories.
-        /// Results are not guaranteed to be exact if the number of supplied items is less than the sum total of category sizes.
+        /// Randomly distribute a set number of items among different categories.<br/>
+        /// Results are not guaranteed to be exact if the number of supplied items is less than the sum total of category allocations.
         /// </summary>
-        /// <typeparam name="T0">
-        /// The type of object that is being distributed.
-        /// </typeparam>
-        /// <typeparam name="T1">
-        /// The type of category amongst which objects are being dsitributed.
-        /// </typeparam>
-        /// <param name="items">
-        /// The objects to be distributed.
-        /// </param>
+        /// <typeparam name="T">The type of object that is being distributed</typeparam>
+        /// <typeparam name="TCategory">The type of category amongst which objects are being distributed</typeparam>
+        /// <param name="items">The objects to be distributed</param>
         /// <param name="categoryCounts">
-        /// Dictionary whose keys are the categories amongst which objects are distributed and whose values are how many objects to distribute to that category.
+        /// Dictionary whose keys are the categories amongst which objects are distributed,
+        /// and whose values are how many objects to distribute to that category
         /// </param>
         /// <returns>
         /// A dictionary of pairs of items and categories.
         /// </returns>
-        public static Dictionary<T0, T1> DistributeNRandom<T0, T1>(List<T0> items, Dictionary<T1, int> categoryCounts)
+        public static Dictionary<T, TCategory> DistributeNRandom<T, TCategory>(
+            IEnumerable<T> items, Dictionary<TCategory, int> categoryCounts)
         {
-            Dictionary<T0, T1> distributedItems = new Dictionary<T0, T1>();
-            Dictionary<T1, int> counts = new Dictionary<T1, int>(categoryCounts);
+            Dictionary<T, TCategory> distributedItems = new Dictionary<T, TCategory>();
+            Dictionary<TCategory, int> counts = new Dictionary<TCategory, int>(categoryCounts);
 
             int total = counts.Values.Sum();
-            List<T0> itemsAdjusted = items.Count > total ? GetNRandom(items, total) : items;
+            IEnumerable<T> itemsAdjusted = items.Count() > total ? GetNRandom(items, total) : items;
 
-            for (int i = 0; i < itemsAdjusted.Count && counts.Count > 0; i++)
+            for (int i = 0; i < itemsAdjusted.Count() && counts.Count > 0; i++)
             {
-                T1 category = counts.Keys.ElementAt(UnityEngine.Random.Range(0, counts.Count));
-                distributedItems.Add(itemsAdjusted[i], category);
+                TCategory category = counts.Keys.ElementAt(Random.Range(0, counts.Count));
+                distributedItems.Add(itemsAdjusted.ElementAt(i), category);
 
                 if (--counts[category] <= 0)
                 {
@@ -82,22 +90,30 @@ namespace MainArtery.Utilities.Unity
             return distributedItems;
         }
 
-
-        public static Dictionary<T0, T1> DistributeEvenlyRandom<T0, T1>(List<T0> items, List<T1> categories)
+        /// <summary>
+        /// Randomly distribute a collection of items evenly among a collection of categories.<br/>
+        /// </summary>
+        /// <typeparam name="T">The type of object that is being distributed</typeparam>
+        /// <typeparam name="TCategory">The type of category amongst which objects are being distributed</typeparam>
+        /// <param name="items">The objects to be distributed</param>
+        /// <param name="categories">Categories amongst which objects are distributed</param>
+        /// <returns>Dictionary whose keys are items and whose values are the corresponding category selected for each item</returns>
+        public static Dictionary<T, TCategory> DistributeEvenlyRandom<T, TCategory>(
+            IEnumerable<T> items, IEnumerable<TCategory> categories)
         {
-            int quotient = items.Count / categories.Count;
-            int remainder = items.Count % categories.Count;
+            int quotient = items.Count() / categories.Count();
+            int remainder = items.Count() % categories.Count();
 
-            Dictionary<T1, int> counts = new Dictionary<T1, int>();
-            foreach (T1 category in categories)
+            Dictionary<TCategory, int> counts = new Dictionary<TCategory, int>();
+            foreach (TCategory category in categories)
                 counts.Add(category, quotient);
-            foreach (T1 category in GetNRandom(categories, remainder))
+            foreach (TCategory category in GetNRandom(categories, remainder))
                 counts[category]++;
 
             return DistributeNRandom(items, counts);
         }
     }
-    // ============================================================================================
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    // ============================================================================================
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
 }
