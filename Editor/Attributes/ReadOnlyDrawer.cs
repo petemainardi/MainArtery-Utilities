@@ -2,11 +2,20 @@ using UnityEngine;
 using UnityEditor;
 using MainArtery.Utilities.Unity.Attributes;
 
-// Code courtesy of:
-// https://www.patrykgalach.com/2020/01/20/readonly-attribute-in-unity-editor/
-
 namespace MainArtery.Utilities.Editor
 {
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
+    /**
+     *  Prevent a property from being edited in the inspector.
+     * 
+     *  Code courtesy of:
+     *  https://www.patrykgalach.com/2020/01/20/readonly-attribute-in-unity-editor/
+     */
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyDrawer : PropertyDrawer
     {
@@ -18,4 +27,7 @@ namespace MainArtery.Utilities.Editor
             GUI.enabled = previousGuiState;
         }
     }
+    /// ===========================================================================================
+    /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// ===========================================================================================
 }

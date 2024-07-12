@@ -1,9 +1,7 @@
 {
-    "name": "MainArtery.Utilities.Editor",
-    "rootNamespace": "MainArtery.Utilities.Editor",
-    "references": [
-        "GUID:78714536ed0d0944e87e1c91bccf0f2e"
-    ],
+    "name": "MainArtery.Utilities.Unity",
+    "rootNamespace": "MainArtery.Utilities.Unity",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
