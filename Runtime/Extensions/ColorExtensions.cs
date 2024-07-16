@@ -16,11 +16,24 @@ namespace MainArtery.Utilities.Unity
     /// ===========================================================================================
     public static class ColorExtensions
     {
+        public static Color WithAlpha(this Color color, float alpha)
+            => new Color(color.r, color.g, color.b, alpha);
+
+        /// <summary>
+        /// Choose between either white or black as the best contrasting color to this color.
+        /// </summary>
         public static Color BestContrast(this Color color)
         {
             return BestContrast(color, Color.white, Color.black);
         }
 
+        /// <summary>
+        /// Choose which from among two colors provides better contrast to this color.
+        /// </summary>
+        /// <param name="color">The color to compare to</param>
+        /// <param name="color1">The first color to compare for contrast</param>
+        /// <param name="color2">The second color to compare for contrast</param>
+        /// <returns>The given color that best contrasts with this color</returns>
         public static Color BestContrast(this Color color, Color color1, Color color2)
         {
             float lum1 = color1.Luminance();
