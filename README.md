@@ -8,3 +8,8 @@ Or by adding the following to your project's Packages/manifest.json file:
 <blockquote>
 	<p>"com.mainartery.utilities": "https://github.com/petemainardi/MainArtery-Utilities.git"</p>
 </blockquote>
+
+<br/>
+
+Great for use in conjunction with the [MainArtery.Utilites nuget package](https://github.com/petemainardi/MainArtery)!<br/>
+Use the [Nuget for Unity package](https://github.com/GlitchEnzo/NuGetForUnity) to install it.
