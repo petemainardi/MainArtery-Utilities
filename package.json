@@ -1,7 +1,7 @@
 {
   "name": "com.mainartery.utilities",
   "displayName": "Main Artery Utilities",
-  "description": "A collection of extensions, scripts, and objects useful for C# and Unity projects.",
+  "description": "A collection of extensions, scripts, and objects useful for Unity projects.",
   "version": "0.0.2",
   "unity": "2021.3",
   "keywords": [
