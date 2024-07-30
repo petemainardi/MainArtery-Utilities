@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using MainArtery.Utilities.Unity.Attributes;
 
-namespace MainArtery.Utilities.Editor
+namespace MainArtery.Utilities.Unity.Editor
 {
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

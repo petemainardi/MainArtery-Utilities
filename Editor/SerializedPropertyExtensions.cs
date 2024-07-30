@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
-namespace MainArtery.Utilities.Editor
+namespace MainArtery.Utilities.Unity.Editor
 {
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
