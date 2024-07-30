@@ -16,6 +16,9 @@ namespace MainArtery.Utilities.Unity
     /// ===========================================================================================
     public static class ColorExtensions
     {
+        /// <summary>
+        /// Get a copy of the color with the specified alpha value.
+        /// </summary>
         public static Color WithAlpha(this Color color, float alpha)
             => new Color(color.r, color.g, color.b, alpha);
 
@@ -45,6 +48,10 @@ namespace MainArtery.Utilities.Unity
             return color.Luminance() > 0.179 ? darker : lighter;
         }
 
+        /// <summary>
+        /// Calculate the luminance/value of the color.
+        /// </summary>
+        /// <remarks>This is the L (or V) of the HSL(V) color model.</remarks>
         public static float Luminance(this Color color)
         {
             float LuminanceComponent(float c)
@@ -59,6 +66,20 @@ namespace MainArtery.Utilities.Unity
 
             return 0.2126f * r + 0.7152f * g + 0.0722f * b;
         }
+
+        /// =======================================================================================
+        /// Specific Colors
+        /// =======================================================================================
+        public static readonly Color EditorDefaultLight     = new Color(0.7843f, 0.7843f, 0.7843f);
+        public static readonly Color EditorDefaultDark      = new Color(0.2196f, 0.2196f, 0.2196f);
+        public static readonly Color EditorSelectedLight    = new Color(0.22745f, 0.447f, 0.6902f);
+        public static readonly Color EditorSelectedDark     = new Color(0.1725f, 0.3647f, 0.5294f);
+        public static readonly Color EditorSelectedUnfocusedLight = new Color(0.68f, 0.68f, 0.68f);
+        public static readonly Color EditorSelectedUnfocusedDark  = new Color(0.3f, 0.3f, 0.3f);
+        public static readonly Color EditorHoveredLight     = new Color(0.698f, 0.698f, 0.698f);
+        public static readonly Color EditorHoveredDark      = new Color(0.2706f, 0.2706f, 0.2706f);
+
+        /// =======================================================================================
     }
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
