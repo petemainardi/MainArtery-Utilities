@@ -26,12 +26,6 @@ namespace MainArtery.Utilities.Unity
     /// ===========================================================================================
     public static class GameObjectExtensions
     {
-        // Whether this gameobject is a scene-instance or a prefab
-        public static bool IsPrefab(this GameObject obj)
-        {
-            return obj.scene.rootCount == 0;    // return obj.scene.name == null; would also work
-        }
-
         public static IEnumerable<GameObject> Children(this GameObject obj, Predicate<Transform> filter = null)
         {
             return obj.transform.Children(filter ?? (_ => true)).Select(t => t.gameObject);
