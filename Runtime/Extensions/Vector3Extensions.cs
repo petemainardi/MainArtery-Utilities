@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MainArtery.Utilities.Unity.Assets.MainArtery_Utilities.Runtime.Extensions
+namespace MainArtery.Utilities.Unity
 {
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
