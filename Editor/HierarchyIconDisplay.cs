@@ -61,8 +61,8 @@ namespace MainArtery.Utilities.Unity.Editor
 			if (go == null)
 				return;
 
-			// Skip prefab objects, still draw them as default blue box
-			if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(go) != null)
+			// Skip prefab roots, still draw them as default blue box
+			if (PrefabUtility.GetNearestPrefabInstanceRoot(go) == go)
 				return;
 
 			Component[] components = go.GetComponents<Component>();
