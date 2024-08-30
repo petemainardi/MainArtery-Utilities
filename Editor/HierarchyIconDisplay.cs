@@ -27,6 +27,13 @@ namespace MainArtery.Utilities.Unity.Editor
 		private static bool _hierarchyHasFocus;
 		private static EditorWindow _hierarchyEditorWindow;
 
+		private static readonly Type[] SKIP_TYPES = new[] {
+            typeof(Transform),
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(MeshRenderer)
+        };
+
         /// =======================================================================================
         /// Mono
         /// =======================================================================================
@@ -65,12 +72,10 @@ namespace MainArtery.Utilities.Unity.Editor
 			if (PrefabUtility.GetNearestPrefabInstanceRoot(go) == go)
 				return;
 
-			Component[] components = go.GetComponents<Component>();
-			if (components == null || components.Length == 0)
-				return;
-
 			// Designate first non-transform component as displayed type if one exists, else show transform
-			Component component = components.Length > 1 ? components[1] : components[0];
+			Component component = FirstEligibleComponent(go);
+			if (component == null) return;
+
 			Type type = component.GetType();
 			GUIContent content = EditorGUIUtility.ObjectContent(component, type);
 			content.text = null;
@@ -94,6 +99,26 @@ namespace MainArtery.Utilities.Unity.Editor
 
 			// Draw component icon
 			EditorGUI.LabelField(selectionRect, content);
+		}
+
+		/// <summary>
+		/// Get the first component eligible to be considered as the representation of the specified GameObject.
+		/// </summary>
+		private static Component FirstEligibleComponent(GameObject go)
+		{
+			Component[] components = go.GetComponents<Component>();
+			if (components == null || components.Length == 0)
+				return null;
+
+			Component component = components[0];
+			for (int i = 1; i < components.Length; i++)
+			{
+				if (SKIP_TYPES.Contains(component.GetType()))
+					component = components[i];
+				else
+					return component;
+			}
+			return component;
 		}
 
 		/// <summary>
