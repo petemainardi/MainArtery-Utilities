@@ -23,6 +23,15 @@ namespace MainArtery.Utilities.Unity
             => new Color(color.r, color.g, color.b, alpha);
 
         /// <summary>
+        /// Get a copy of the color with the specified luminance value.
+        /// </summary>
+        public static Color WithValue(this Color color, float value)
+        {
+            Color.RGBToHSV(color, out float hue, out float saturation, out _);
+            return Color.HSVToRGB(hue, saturation, Mathf.Clamp01(value));
+        }
+
+        /// <summary>
         /// Choose between either white or black as the best contrasting color to this color.
         /// </summary>
         public static Color BestContrast(this Color color)
