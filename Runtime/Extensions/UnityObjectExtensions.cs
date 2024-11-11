@@ -21,6 +21,10 @@ namespace MainArtery.Utilities.Unity
             return $"{obj.name}:{obj.GetInstanceID().ToString()}";
         }
 
+        public static T[] FindByType<T>(this UnityEngine.Object _, FindObjectsSortMode sortMode = FindObjectsSortMode.None) where T : UnityEngine.Object
+        {
+            return GameObject.FindObjectsByType<T>(sortMode);
+        }
         public static T[] FindByType<T>(FindObjectsSortMode sortMode = FindObjectsSortMode.None) where T : UnityEngine.Object
         {
             return GameObject.FindObjectsByType<T>(sortMode);
