@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 namespace MainArtery.Utilities.Unity
 {
@@ -38,6 +41,20 @@ namespace MainArtery.Utilities.Unity
         public static IEnumerable<GameObject> Children(this GameObject obj, Predicate<Transform> filter = null)
         {
             return obj.transform.Children(filter ?? (_ => true)).Select(t => t.gameObject);
+        }
+
+        /// <summary>
+        /// If viewing an isolated prefab in the scene view in the editor, determine whether the
+        /// given GameObject is part of the prefab being viewed.
+        /// </summary>
+        public static bool IsPartOfCurrentPrefabContents(this GameObject obj)
+        {
+#if UNITY_EDITOR
+            PrefabStage prefabScene = PrefabStageUtility.GetCurrentPrefabStage();
+            return prefabScene == null || prefabScene.IsPartOfPrefabContents(obj);
+#else
+            return false;
+#endif
         }
     }
     /// ===========================================================================================
