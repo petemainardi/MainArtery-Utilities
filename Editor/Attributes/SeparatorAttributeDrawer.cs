@@ -1,7 +1,12 @@
 ﻿#if ODIN_INSPECTOR
 using System;
+using UnityEngine;
+using UnityEditor;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
+using MainArtery.Utilities.Unity.Attributes;
 
-namespace MainArtery.Utilities.Unity.Attributes
+namespace MainArtery.Utilities.Unity.Editor
 {
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -12,14 +17,29 @@ namespace MainArtery.Utilities.Unity.Attributes
     /// ===========================================================================================
     /// |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     /// ===========================================================================================
-    public class SeparatorAttribute : Attribute
+    public class SeparatorAttributeDrawer : OdinAttributeDrawer<SeparatorAttribute>
     {
-        public bool Before = true;
-
-        public SeparatorAttribute() { }
-        public SeparatorAttribute(bool placeSeparatorBefore)
+        protected override void DrawPropertyLayout(GUIContent label)
         {
-            Before = placeSeparatorBefore;
+            if (this.Attribute.Before)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+                SirenixEditorGUI.DrawThickHorizontalSeparator();
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+            }
+
+            this.CallNextDrawer(label);
+
+            if (!this.Attribute.Before)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+                SirenixEditorGUI.DrawThickHorizontalSeparator();
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+            }
         }
     }
     /// ===========================================================================================

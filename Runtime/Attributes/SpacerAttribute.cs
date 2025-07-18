@@ -1,9 +1,6 @@
 #if ODIN_INSPECTOR
 using System;
-using UnityEngine;
-using UnityEditor;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 
 namespace MainArtery.Utilities.Unity.Attributes
 {
@@ -28,22 +25,6 @@ namespace MainArtery.Utilities.Unity.Attributes
         {
             NumSpaces = Math.Max(1, numSpaces);
             BeforeItem = before;
-        }
-    }
-
-    public class SpacerAttributeDrawer : OdinAttributeDrawer<SpacerAttribute>
-    {
-        protected override void DrawPropertyLayout(GUIContent label)
-        {
-            if (this.Attribute.BeforeItem)
-                for (int i = 0; i < this.Attribute.NumSpaces; i++)
-                    EditorGUILayout.Space();
-
-            this.CallNextDrawer(label);
-
-            if (!this.Attribute.BeforeItem)
-                for (int i = 0; i < this.Attribute.NumSpaces; i++)
-                    EditorGUILayout.Space();
         }
     }
     /// ===========================================================================================
